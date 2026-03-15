@@ -1,0 +1,16 @@
+flowchart TD
+    %% 要素
+    User(ユーザー)
+    Post(記事)
+    Comment(コメント)
+    Category(カテゴリー)
+    Recommend(いいね)
+
+    %% 連関
+    User -- wrote --> Post
+    Recommend -- by --> User
+    Post -- have --> Recommend
+    Post -- written by --> User
+    Post -- have --> Comment
+    Post -- have --> Category
+    Comment -- written by --> User
