@@ -1,3 +1,7 @@
 spring:
   application:
     name: graphql-study
+  r2dbc:
+    url: ${BD_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
