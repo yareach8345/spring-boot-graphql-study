@@ -1,0 +1,36 @@
+# データスキーマ定義
+type Book {
+    id: ID!
+    title: String!
+    description: String
+    writer: Writer!
+}
+
+# schema.graphqlsの　Queryを拡張
+# 本を検索するためのエンドポイントを追加
+extend type Query {
+    getBook(id: ID!): Book
+    getAllBooks: [Book!]!
+    getBooksWithPaging(first: Int!, offset: Int): [Book!]!
+}
+
+# schema.graphqlsの　Mutationを拡張
+# 本に対する作業のめのエンドポイントを追加
+extend type Mutation {
+    addBook(input: newBookInfo!): Book!
+    deleteBook(bookId: ID!): Boolean!
+}
+
+input newBookInfo {
+    id: ID!
+    title: String!
+    description: String
+    writerId: ID!
+}
+
+# schema.graphqlsの Subscriptionを拡張
+extend type Subscription {
+    bookRegistered: Book
+
+    bookRegisteredByWriter(writerId: ID!): Book
+}

@@ -1,53 +1,5 @@
-# データスキーマ定義
-type Writer {
-  id: ID!
-  name: String!
-  description: String
-  books: [Book!]!
-}
+type Query {}
 
-type Book {
-  id: ID!
-  title: String!
-  description: String
-  writer: Writer!
-}
+type Mutation {}
 
-# データ取得のためのQuery定義
-type Query {
-  getWriter(id: ID!): Writer
-
-  getBook(id: ID!): Book
-  getAllBooks: [Book!]!
-  getBooksWithPaging(first: Int!, offset: Int): [Book!]!
-}
-
-# データの取得以外の作業のためのMutation定義
-type Mutation {
-  addWriter(input: newWriterInfo!): Writer!
-  deleteWriter(writerId: ID!): Boolean!
-
-  addBook(input: newBookInfo!): Book!
-  deleteBook(bookId: ID!): Boolean!
-}
-
-# Mutationで使用する入力データ
-input newWriterInfo {
-  id: ID!
-  name: String!
-  description: String
-}
-
-input newBookInfo {
-  id: ID!
-  title: String!
-  description: String
-  writerId: ID!
-}
-
-# Subscription定義
-type Subscription {
-  bookRegistered: Book
-
-  bookRegisteredByWriter(writerId: ID!): Book
-}
+type Subscription {}

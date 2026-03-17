@@ -1,0 +1,26 @@
+type Writer {
+    id: ID!
+    name: String!
+    description: String
+    books: [Book!]!
+}
+
+# schema.graphqlsの　Queryを拡張
+# 著者を検索するためのエンドポイントを追加
+extend type Query {
+    getWriter(id: ID!): Writer
+}
+
+# schema.graphqlsの　Mutationを拡張
+# 著者に対する作業のめのエンドポイントを追加
+extend type Mutation {
+    addWriter(input: newWriterInfo!): Writer!
+    deleteWriter(writerId: ID!): Boolean!
+}
+
+# Mutationで使用する入力データ
+input newWriterInfo {
+    id: ID!
+    name: String!
+    description: String
+}

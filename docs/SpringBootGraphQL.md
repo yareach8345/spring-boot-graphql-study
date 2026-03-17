@@ -59,12 +59,16 @@ dependencies {
 
 ## 2. graphqlsファイル作成
 
+### 2-1 単一ファイル
+
 まず、graphqlsファイルを作成して、データのスキーマとエントリーポイントを定義しました。
 
 Subscriptionのエントリーポイントは実務ではあまり使われなさそうですが、ここでは実習のために追加しました。
 
 ```graphql
 # src/main/resources/graphql/schema.graphqls
+# ファイルを分けたゆえ、このファイルの内容は変更されています。
+# 変更前の内容を確認するには、`only-one-schema-file`ブランチの最終コミットを参照してください。
 
 # データスキーマ定義
 type Writer {
@@ -118,5 +122,106 @@ type Subscription {
   bookRegistered: Book
 
   bookRegisteredByWriter(writerId: ID!): Book
+}
+```
+
+### 2-2 複数のファイル
+
+この例は簡単なのであって、graphqlsのファイルの内容が53行で終わりますが、実務ではもっと多くの種類のデータとエントリーポイントを扱うので、全てを一つのファイルに定義すると非常に長いファイルになる恐れがあります。
+そのため、スキーマを作成する場合は複数のファイルに内容を分けて記録する必要があります。
+
+Spring Boot GraphQLはビルドの際に`src/main/resources/graphql`の中の全てのファイルを自動的にスキャンします。
+スキャンの対象はファイル名ではなく、ファイルの位置によって決まるため、`src/main/resources/graphql`の中に複数の.graphqlsファイルを作成することができます。
+
+では、ファイルを分けてみましょう。
+
+まず、schema.graphqlsを作成します。
+
+ここでは共通的に使用される基本タイプを定義します。
+また、このファイルでは空のQuery・Mutation・Subscriptionも定義します。
+それらがここで定義される理由はGraphQLがタイプの重複を許可していないためです。
+そのため、ファイルごとにエントリーポイントを定義するためには、一度基本タイプを定義した後、他のファイルで`extend`を使ってタイプを拡張する形で使用する必要が有るからです。
+
+```graphql
+# src/main/resources/graphql/schema.graphqls
+
+type Query {}
+
+type Mutation {}
+
+type Subscription {}
+```
+
+他のファイルではそのファイルに関するタイプを定義し、
+schema.graphqlsで定義した基本タイプを拡張してエントリーポイントを追加します。
+
+```graphql
+# src/main/resources/graphql/book.graphqls
+
+type Book {
+    id: ID!
+    title: String!
+    description: String
+    writer: Writer!
+}
+
+# schema.graphqlsの　Queryを拡張
+# 本を検索するためのエンドポイントを追加
+extend type Query {
+    getBook(id: ID!): Book
+    getAllBooks: [Book!]!
+    getBooksWithPaging(first: Int!, offset: Int): [Book!]!
+}
+
+# schema.graphqlsの　Mutationを拡張
+# 本に対する作業のためのエンドポイントを追加
+extend type Mutation {
+    addBook(input: newBookInfo!): Book!
+    deleteBook(bookId: ID!): Boolean!
+}
+
+input newBookInfo {
+    id: ID!
+    title: String!
+    description: String
+    writerId: ID!
+}
+
+# schema.graphqlsの Subscriptionを拡張
+extend type Subscription {
+    bookRegistered: Book
+
+    bookRegisteredByWriter(writerId: ID!): Book
+}
+```
+
+```graphql
+# src/main/resources/graphql/writer.graphqls
+
+type Writer {
+    id: ID!
+    name: String!
+    description: String
+    books: [Book!]!
+}
+
+# schema.graphqlsの　Queryを拡張
+# 著者を検索するためのエンドポイントを追加
+extend type Query {
+    getWriter(id: ID!): Writer
+}
+
+# schema.graphqlsの　Mutationを拡張
+# 著者に対する作業のためのエンドポイントを追加
+extend type Mutation {
+    addWriter(input: newWriterInfo!): Writer!
+    deleteWriter(writerId: ID!): Boolean!
+}
+
+# Mutationで使用する入力データ
+input newWriterInfo {
+    id: ID!
+    name: String!
+    description: String
 }
 ```
