@@ -104,13 +104,11 @@ type Mutation {
 
 # Mutationで使用する入力データ
 input newWriterInfo {
-    id: ID!
     name: String!
     description: String
 }
 
 input newBookInfo {
-    id: ID!
     title: String!
     description: String
     writerId: ID!
