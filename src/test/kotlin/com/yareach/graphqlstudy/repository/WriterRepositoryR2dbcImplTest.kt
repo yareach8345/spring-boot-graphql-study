@@ -1,7 +1,6 @@
 package com.yareach.graphqlstudy.repository
 
 import com.yareach.graphqlstudy.model.Writer
-import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
