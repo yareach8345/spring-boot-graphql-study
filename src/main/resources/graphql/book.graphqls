@@ -18,7 +18,7 @@ extend type Query {
 # 本に対する作業のめのエンドポイントを追加
 extend type Mutation {
     addBook(input: newBookInfo!): Book!
-    deleteBook(bookId: ID!): Boolean!
+    deleteBook(id: ID!): Boolean!
 }
 
 input newBookInfo {

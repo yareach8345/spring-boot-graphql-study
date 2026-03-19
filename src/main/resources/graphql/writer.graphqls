@@ -18,7 +18,7 @@ extend type Query {
 # 著者に対する作業のめのエンドポイントを追加
 extend type Mutation {
     addWriter(input: newWriterInfo!): Writer!
-    deleteWriter(writerId: ID!): Boolean!
+    deleteWriter(id: ID!): Boolean!
 }
 
 # Mutationで使用する入力データ

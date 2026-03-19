@@ -100,10 +100,10 @@ type Query {
 # データの取得以外の作業のためのMutation定義
 type Mutation {
     addWriter(input: newWriterInfo!): Writer!
-    deleteWriter(writerId: ID!): Boolean!
+    deleteWriter(id: ID!): Boolean!
 
     addBook(input: newBookInfo!): Book!
-    deleteBook(bookId: ID!): Boolean!
+    deleteBook(id: ID!): Boolean!
 }
 
 # Mutationで使用する入力データ
@@ -178,7 +178,7 @@ extend type Query {
 # 本に対する作業のためのエンドポイントを追加
 extend type Mutation {
     addBook(input: newBookInfo!): Book!
-    deleteBook(bookId: ID!): Boolean!
+    deleteBook(id: ID!): Boolean!
 }
 
 input newBookInfo {
@@ -218,7 +218,7 @@ extend type Query {
 # 著者に対する作業のためのエンドポイントを追加
 extend type Mutation {
     addWriter(input: newWriterInfo!): Writer!
-    deleteWriter(writerId: ID!): Boolean!
+    deleteWriter(id: ID!): Boolean!
 }
 
 # Mutationで使用する入力データ
