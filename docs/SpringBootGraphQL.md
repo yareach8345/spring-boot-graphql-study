@@ -113,7 +113,6 @@ input newWriterInfo {
 }
 
 input newBookInfo {
-    id: ID!
     title: String!
     description: String
     writerId: ID!
@@ -183,7 +182,6 @@ extend type Mutation {
 }
 
 input newBookInfo {
-    id: ID!
     title: String!
     description: String
     writerId: ID!

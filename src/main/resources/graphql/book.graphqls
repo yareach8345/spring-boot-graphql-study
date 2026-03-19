@@ -22,7 +22,6 @@ extend type Mutation {
 }
 
 input newBookInfo {
-    id: ID!
     title: String!
     description: String
     writerId: ID!
