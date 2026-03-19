@@ -96,10 +96,10 @@ type Query {
 # データの取得以外の作業のためのMutation定義
 type Mutation {
     addWriter(input: newWriterInfo!): Writer!
-    deleteWriter(writerId: ID!): Boolean!
+    deleteWriter(id: ID!): Boolean!
 
     addBook(input: newBookInfo!): Book!
-    deleteBook(bookId: ID!): Boolean!
+    deleteBook(id: ID!): Boolean!
 }
 
 # Mutationで使用する入力データ
