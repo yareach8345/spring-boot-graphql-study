@@ -108,7 +108,6 @@ type Mutation {
 
 # Mutationで使用する入力データ
 input newWriterInfo {
-    id: ID!
     name: String!
     description: String
 }
@@ -226,7 +225,6 @@ extend type Mutation {
 
 # Mutationで使用する入力データ
 input newWriterInfo {
-    id: ID!
     name: String!
     description: String
 }
