@@ -5,7 +5,7 @@ class Writer(
 
     val name: String,
 
-    val description: String?,
+    val description: String? = null,
 ) {
     companion object {
         fun of(name: String, description: String? = null): Writer = Writer(
