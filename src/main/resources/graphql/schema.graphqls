@@ -1,3 +1,8 @@
+input PageInput {
+    page: Int!
+    size: Int
+}
+
 type Query {}
 
 type Mutation {}

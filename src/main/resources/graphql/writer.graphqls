@@ -9,9 +9,9 @@ type Writer {
 # 著者を検索するためのエンドポイントを追加
 extend type Query {
     getWriter(id: ID!): Writer!
-    getWriters(page: Int, size: Int): [Writer!]!
+    getWriters(pageRequest: PageInput): [Writer!]!
 
-    searchWriterByName(name: String!, page: Int, size: Int): [Writer!]!
+    searchWriterByName(name: String!, pageRequest: PageInput): [Writer!]!
 }
 
 # schema.graphqlsの　Mutationを拡張

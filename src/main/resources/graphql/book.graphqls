@@ -10,8 +10,7 @@ type Book {
 # 本を検索するためのエンドポイントを追加
 extend type Query {
     getBook(id: ID!): Book
-    getAllBooks: [Book!]!
-    getBooksWithPaging(first: Int!, offset: Int): [Book!]!
+    getAllBooks(pageRequest: PageInput): [Book!]!
 }
 
 # schema.graphqlsの　Mutationを拡張
