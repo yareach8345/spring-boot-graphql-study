@@ -84,13 +84,12 @@ type Book {
 # データ取得のためのQuery定義
 type Query {
     getWriter(id: ID!): Writer!
-    getWriters(page: Int, size: Int): [Writer!]!
+    getWriters(pageRequest: PageInput): [Writer!]!
 
-    searchWriterByName(name: String!, page: Int, size: Int): [Writer!]!
+    searchWriterByName(name: String!, pageRequest: PageInput): [Writer!]!
 
     getBook(id: ID!): Book
-    getAllBooks: [Book!]!
-    getBooksWithPaging(first: Int!, offset: Int): [Book!]!
+    getAllBooks(pageRequest: PageInput): [Book!]!
 }
 
 # データの取得以外の作業のためのMutation定義
@@ -102,7 +101,12 @@ type Mutation {
     deleteBook(id: ID!): Boolean!
 }
 
-# Mutationで使用する入力データ
+# 入力データ
+input PageInput {
+    page: Int!
+    size: Int
+}
+
 input newWriterInfo {
     name: String!
     description: String
