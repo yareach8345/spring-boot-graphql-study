@@ -5,7 +5,7 @@ spring:
   sql:
     init:
       mode: always
-      schema-locations: sql/test-schema.sql
+      schema-locations: optional:classpath:sql/test-schema.sql
   output:
     ansi:
       enabled: always
