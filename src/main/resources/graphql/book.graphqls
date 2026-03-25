@@ -11,6 +11,10 @@ type Book {
 extend type Query {
     getBook(id: ID!): Book
     getAllBooks(pageRequest: PageInput): [Book!]!
+
+    getBookByWriterId(writerId: ID!):  [Book!]!
+
+    searchBookByTitle(title: String!, pageRequest: PageInput): [Book!]!
 }
 
 # schema.graphqlsの　Mutationを拡張

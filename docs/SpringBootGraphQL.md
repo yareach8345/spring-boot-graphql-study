@@ -94,6 +94,10 @@ type Query {
 
     getBook(id: ID!): Book
     getAllBooks(pageRequest: PageInput): [Book!]!
+
+    getBookByWriterId(writerId: ID!):  [Book!]!
+
+    searchBookByTitle(title: String!, pageRequest: PageInput): [Book!]!
 }
 
 # データの取得以外の作業のためのMutation定義
@@ -181,6 +185,10 @@ type Book {
 extend type Query {
     getBook(id: ID!): Book
     getAllBooks(pageRequest: PageInput): [Book!]!
+
+    getBookByWriterId(writerId: ID!):  [Book!]!
+
+    searchBookByTitle(title: String!, pageRequest: PageInput): [Book!]!
 }
 
 # schema.graphqlsの　Mutationを拡張
