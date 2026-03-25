@@ -90,6 +90,8 @@ type Query {
 
     getBook(id: ID!): Book
     getAllBooks(pageRequest: PageInput): [Book!]!
+
+    searchBookByTitle(title: String!, pageRequest: PageInput): [Book!]!
 }
 
 # データの取得以外の作業のためのMutation定義
