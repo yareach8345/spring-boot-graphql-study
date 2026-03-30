@@ -10,7 +10,7 @@ class Book(
     val writerId: Long
 ) {
     companion object {
-        fun of(title: String, description: String, writerId: Long): Book {
+        fun of(title: String, writerId: Long, description: String? = null): Book {
             return Book(title = title, description = description, writerId = writerId)
         }
     }

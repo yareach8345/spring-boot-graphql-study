@@ -19,7 +19,7 @@ class BookWriteServiceImpl(
 ) : BookWriteService {
 
     override suspend fun addBook(addBookDto: AddBookDto): Book {
-        val book = Book.of(addBookDto.title, addBookDto.description, addBookDto.writerId)
+        val book = Book.of(addBookDto.title, addBookDto.writerId, addBookDto.description)
 
         if(!writerReadService.checkWritersExists(book.writerId)) {
             throw RuntimeException("Writer ${book.writerId} does not exist")
