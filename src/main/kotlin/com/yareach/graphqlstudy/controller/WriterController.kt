@@ -44,8 +44,8 @@ class WriterController(
         return writerWriteService.addWriter(input)
     }
 
-    @MutationMapping
-    suspend fun deleteWriter(@Argument id: Long): Boolean {
+    @MutationMapping(name = "deleteWriter")
+    suspend fun removeWriter(@Argument id: Long): Boolean {
         writerWriteService.deleteWriter(id)
         return true
     }

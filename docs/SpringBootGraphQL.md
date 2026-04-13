@@ -244,3 +244,101 @@ input newWriterInfo {
     description: String
 }
 ```
+
+## 3. マッピング
+
+graphqlsファイルを作成が終わったら次はご実装の時間です。
+
+この記事ではgraphqlの実装について概説するので、サービスとかレポジトリーとか他の層は説明せず、プレゼンテーション層の実装だけをご説明いたします。
+
+### 3-1. QueryMapping
+
+まず、Queryスキーマのクエリとコントローラクラスのメソッドをマッピングしてみましょう。
+
+コントローラクラスのメソッドとgraphqlsのクエリをマッピングする際は次のように`@QueryMapping`アノテーションを使います。
+
+```kotlin
+    //kotlin
+    @QueryMapping
+    suspend fun getBook(@Argument id: Long): Book {
+        return bookReadService.getBook(id)
+    }
+```
+
+基本的にアノテーションが付いているメソッドと同じ名のクエリとマッピングされます。
+
+上の例では**getBook**メソッドにアノテーションが付いていってQueryスキーマの**getBook**クエリにマッピングされます。
+
+メソッドと違い名称のクエリとマッピングする必要が有ると、次のように`name`で指定します。
+
+```kotlin
+    @QueryMapping(name = "getAllBooks")
+    suspend fun getBooks(@Argument pageRequest: PageInfoDto?): List<Book> {
+        val pageable = pageRequest?.toPageable()
+        return bookReadService.getAllBooks(pageable).toList()
+    }
+```
+
+このようにするとメソッドの名はgetBooksであるものの、getAllBooksクエリとマッピングされます。
+
+### 3-2. SchemaMapping
+
+続けて連関データをマッピングする方法も調べてみましょう。
+
+本を検索する際、本の著者もともに取得するため、著者を取得するさい、あの著者の本のリストをともに取得するためには連関するデータも取得する必要があります。
+
+それを実装するためには`@SchemaMapping`アノテーションを使います。
+パラメーターで渡された値と連関のデータを返します。
+
+次の例ではパラメーターでBookクラスのデータが渡されてその本の著者を返します。
+
+```kotlin
+    @SchemaMapping
+    suspend fun writer(book: Book): Writer {
+        val writerId = book.writerId
+        return writerReadService.getById(writerId)
+    }
+```
+
+### 3-3. MutationMapping
+
+graphqlファイルでは検索のためのクエリだけでなく、データの保存とか削除とかのためのMutationもありました。
+Mutationとマッピングするためには`@MutationMapping`アノテーションを付きます。
+
+このアノテーションもクエリと同じ名のメソッドに付いて使います。
+@QueryMappingの場合と同様にクエリの名を指定することもできます。
+
+```kotlin
+    @MutationMapping
+    suspend fun addWriter(@Argument input: AddWriterDto): Writer {
+        return writerWriteService.addWriter(input)
+    }
+
+    @MutationMapping(name = "deleteWriter")
+    suspend fun removeWriter(@Argument id: Long): Boolean {
+        writerWriteService.deleteWriter(id)
+        return true
+    }
+```
+
+こうしてgraphqlsファイルで作成したためクエリをマッピングされます。
+
+# テスト
+## 1. クエリを作成してテスト
+
+次のように`spring.graphql.graphiql.enabled`をtrueに設定したら、テストページに接続することができます。
+
+```yaml
+spring:
+  graphql:
+    graphiql:
+      enabled: true
+```
+
+実行した後、`/graphiql`に接続してみましょう。
+
+次のようなページが見えると成功です。
+
+![graphiql page image](/docs/img/test-page.png)
+
+このページで機能を確認することができ、クエリを作成して検索してみることもでき、その結果を確認することもできます。

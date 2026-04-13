@@ -27,8 +27,8 @@ class BookController(
         return bookReadService.getBook(id)
     }
 
-    @QueryMapping
-    suspend fun getAllBooks(@Argument pageRequest: PageInfoDto?): List<Book> {
+    @QueryMapping(name = "getAllBooks")
+    suspend fun getBooks(@Argument pageRequest: PageInfoDto?): List<Book> {
         val pageable = pageRequest?.toPageable()
         return bookReadService.getAllBooks(pageable).toList()
     }
